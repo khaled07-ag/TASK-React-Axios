@@ -1,7 +1,8 @@
 import React from "react";
-
+import Modal from "./Modal";
 const Home = () => {
   return (
+    <>
     <div className="w-screen h-[100vh] bg-[#F9E3BE] flex flex-col justify-center items-center md:flex-row font-mono">
       <h1 className="text-center text-[60px] ">
         Welcome to theeeee best pets shop
@@ -11,6 +12,8 @@ const Home = () => {
         alt="Pets image logo"
       />
     </div>
+    <Modal/>
+    </>
   );
 };
 

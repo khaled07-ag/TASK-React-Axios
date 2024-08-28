@@ -1,12 +1,16 @@
 import React, { useState } from "react";
 import Input from "./Input";
-
+import {createPet} from "./API/pets"
 const Modal = ({ show, setShowModal }) => {
   const [name, setName] = useState("");
   const [type, setType] = useState("");
   const [image, setImage] = useState("");
   const [available, setAvailable] = useState(0);
   if (!show) return "";
+  const handleClick = async()=>{
+    const res = await createPet(name,type,image,available);
+
+  }
   return (
     <div
       className="inset-0 fixed  flex justify-center items-center flex-col z-20 overflow-hidden 

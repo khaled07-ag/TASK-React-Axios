@@ -6,21 +6,45 @@ import { getAllPets, getPetById } from "./API/pets";
 const PetList = () => {
   const [query, setQuery] = useState("");
   const [showModal, setShowModal] = useState(false);
+  const [id, setId] = useState('')
   const [pets, setPets] = useState([])
+  const [pet,setPet]=useState('');
   const getPets = async ()=>{
     const res = await getAllPets();
     setPets(res);
     console.log(pets)
   }
+  const handleInput = (e)=>{
+    setId(e.target.value)
 
+  }
+  const outputPet = async()=>{
+    const res = await getPetById(id);
+    setPet(res)
+    console.log(pet)
+  }
   const petList = pets
     .filter((pet) => pet.name.toLowerCase().includes(query.toLowerCase()))
     .map((pet) => <PetItem pet={pet} key={pet.id} />);
   return (
     <>
       <div className="bg-[#F9E3BE] flex flex-col justify-center items-center ">
-      <button onClick={getPets}>ghfwwfwfwfwf</button>
+        <div>
+      <button onClick={getPets}>All Pets</button>
         <div className="w-[76vw] flex h-[30px] mb-[30px] mt-[30px]">
+        <input
+            onChange={handleInput}
+            
+            placeholder="Enter ID"
+            className="w-[70%] flex justify-start items-center border border-black rounded-md"
+          />
+          <button
+            className="ml-auto w-[25%] px-3 py-2 rounded-md text-sm md:text-xl border border-black  flex justify-center items-center bg-green-400 hover:bg-green-600"
+            onClick={outputPet}
+          >
+            Search
+          </button>
+          </div>
           <input
             onChange={(e) => {
               setQuery(e.target.value);
