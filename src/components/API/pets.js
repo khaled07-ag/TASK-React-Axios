@@ -14,7 +14,7 @@ const createPet = async(name, type,image,available)=>{
             name:name,
             type:type,
             image:image,
-            available:available,
+            adopted:available,
         }
     )
     return res.data

@@ -1,8 +1,9 @@
 import React, { useState, useSyncExternalStore } from "react";
-
+import Navbar from "./Navbar";
 import PetItem from "./PetItem";
 import Modal from "./Modal";
 import { getAllPets, getPetById } from "./API/pets";
+import { useQuery } from "@tanstack/react-query";
 const PetList = () => {
   const [query, setQuery] = useState("");
   const [showModal, setShowModal] = useState(false);
@@ -23,21 +24,31 @@ const PetList = () => {
     setPet(res)
     console.log(pet)
   }
-  const petList = pets
-    .filter((pet) => pet.name.toLowerCase().includes(query.toLowerCase()))
-    .map((pet) => <PetItem pet={pet} key={pet.id} />);
+  const {data ,isPending} = useQuery({
+    queryKey :["getAllPets"],
+    queryFn: getAllPets
+
+  })
+  console.log(data);
+  
+  const petList = data
+    ?.filter((pet) => pet.name.toLowerCase().includes(query.toLowerCase()))
+    ?.map((pet) => <PetItem pet={pet} key={pet.id} />);
   return (
     <>
+    <Navbar/>
       <div className="bg-[#F9E3BE] flex flex-col justify-center items-center ">
         <div>
-      <button onClick={getPets}>All Pets</button>
+      
         <div className="w-[76vw] flex h-[30px] mb-[30px] mt-[30px]">
         <input
-            onChange={handleInput}
-            
-            placeholder="Enter ID"
+            onChange={(e) => {
+              setQuery(e.target.value);
+            }}
+            placeholder="Search"
             className="w-[70%] flex justify-start items-center border border-black rounded-md"
           />
+          
           <button
             className="ml-auto w-[25%] px-3 py-2 rounded-md text-sm md:text-xl border border-black  flex justify-center items-center bg-green-400 hover:bg-green-600"
             onClick={outputPet}
@@ -45,13 +56,6 @@ const PetList = () => {
             Search
           </button>
           </div>
-          <input
-            onChange={(e) => {
-              setQuery(e.target.value);
-            }}
-            placeholder="Search"
-            className="w-[70%] flex justify-start items-center border border-black rounded-md"
-          />
           
           <button
             className="ml-auto w-[25%] px-3 py-2 rounded-md text-sm md:text-xl border border-black  flex justify-center items-center bg-green-400 hover:bg-green-600"

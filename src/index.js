@@ -8,7 +8,8 @@ import Home from './components/Home';
 import PetItem from './components/PetItem';
 import PetDetail from './components/PetDetail';
 import PetList from './components/PetList';
-import Modal from './components/Modal';
+import {QueryClient,QueryClientProvider} from "@tanstack/react-query"
+const queryClient = new QueryClient();
 const root = ReactDOM.createRoot(document.getElementById('root'));
 const router = createBrowserRouter([
   {
@@ -20,22 +21,21 @@ const router = createBrowserRouter([
     element: <PetItem/>
   },
   {
-    path:"/petdetail",
+    path:"/pet/:id",
     element:<PetDetail/>,
   },
   {
     path:"/petlist",
     element:<PetList/>,
   },
-  {
-    path:"/modal",
-    element:<Modal/>,
-  }
+  
 
 ]);
 root.render(
   <React.StrictMode>
+    <QueryClientProvider client={queryClient}>
      <RouterProvider router={router} />
+    </QueryClientProvider>
   </React.StrictMode>
 );
 
