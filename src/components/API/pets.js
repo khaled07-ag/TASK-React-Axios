@@ -19,4 +19,8 @@ const createPet = async(name, type,image,available)=>{
     )
     return res.data
 }
-export {getAllPets,getPetById,createPet}
+const deletePet = async (id)=>{
+    const res = await instance.delete(`/pets/${id}`)
+    return res.data
+}
+export {getAllPets,getPetById,createPet,deletePet}

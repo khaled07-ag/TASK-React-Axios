@@ -1,8 +1,8 @@
 import React from "react";
 import Navbar from "./Navbar";
-import { useParams } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
-import { getPetById } from "./API/pets";
+import { Link,  useParams ,useNavigate, Navigate} from "react-router-dom";
+import { useQuery,useMutation } from "@tanstack/react-query";
+import { getPetById,deletePet } from "./API/pets";
 
 const PetDetail = () => {
   const {id}= useParams();
@@ -11,7 +11,14 @@ const {data: pet}= useQuery({
   queryFn:()=>getPetById(id),
 
 })
-  
+const navigate = useNavigate();
+const {mutate} = useMutation({
+  mutationKey: ["deletePet"],
+  mutationFn:()=>deletePet(id),
+  onSuccess:()=>{
+    navigate("/petlist")
+  }
+})
   return (
     <>
     <Navbar/>
@@ -33,7 +40,7 @@ const {data: pet}= useQuery({
             Adobt
           </button>
 
-          <button className="w-[70px] border border-black rounded-md  hover:bg-red-400">
+          <button className="w-[70px] border border-black rounded-md  hover:bg-red-400" onClick={mutate}>
             Delete
           </button>
         </div>
